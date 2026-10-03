@@ -1,0 +1,32 @@
+10 REM files test
+20 LET x=1: PRINT "x=";x
+LET v=42: DIM a(3): LET a(3)=7: LET a$="text"
+SAVE "zxtest-prog" LINE 20
+SAVE "zxtest-prog.bas"
+SAVE "zxtest-arr" DATA a()
+SAVE "zxtest-str" DATA a$()
+DIM s$(2,3): LET s$(2)="abc": SAVE "zxtest-str" DATA s$()
+POKE 50000,1: POKE 50001,2: SAVE "zxtest-code" CODE 50000,2
+NEW
+LOAD "zxtest-prog"
+PRINT v, a(3)
+NEW
+LOAD "zxtest-prog.bas"
+LIST
+VERIFY "zxtest-prog.bas"
+30 PRINT "new line"
+VERIFY "zxtest-prog.bas"
+LOAD "zxtest-arr" DATA q(): PRINT q(3)
+LOAD "zxtest-str" DATA t$(): PRINT t$(2)
+LOAD "" DATA q()
+POKE 50000,0: LOAD "zxtest-code" CODE 50001: PRINT PEEK 50001, PEEK 50002
+LOAD "zxtest-code" CODE 60000,1
+MERGE "zxtest-prog"
+LIST
+LOAD "zxtest-nothing"
+SAVE ""
+ERASE "zxtest-prog.bas"
+LOAD "zxtest-prog.bas"
+MOVE "zxtest-code.tap","zxtest-code2.tap"
+LOAD "zxtest-code2" CODE: PRINT PEEK 50000
+ERASE "zxtest-code2.tap": ERASE "zxtest-prog.tap": ERASE "zxtest-arr.tap": ERASE "zxtest-str.tap"

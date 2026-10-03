@@ -1,0 +1,110 @@
+© 1982 Sinclair Research Ltd
+10 print "lower case"
+20 goto 10
+30 Let A=1: iF a THEN pRiNt "mixed"
+40 pr. "abbreviated": go sub 50
+50 deffn f(x)=x*2: rem print not tokenized
+60 print "print in quotes"; val$ "chr$ 65"
+70 for i=1to 3:next i
+80 print a<>1, a<=1, a>=1
+LIST
+  10 PRINT "lower case"
+  20 GO TO 10
+  30 LET A=1: IF a THEN PRINT "m
+ixed"
+  40 PRINT "abbreviated": GO SUB
+ 50
+  50 DEF FN f(x)=x*2: REM print 
+not tokenized
+  60 PRINT "print in quotes";VAL
+$  "chr$ 65"
+  70 FOR i=1 TO 3: NEXT i
+  80 PRINT a<>1, a<=1, a>=1
+0 OK, 0:1
+REM
+REM COMMANDS
+                
+V1.32
+                
+STREAMS
+DELETE   first last
+RENUMBER start step  first last
+0 OK, 0:1
+rem renumber
+0 OK, 0:1
+LIST
+ 100 PRINT "lower case"
+ 110 GO TO 100
+ 120 LET A=1: IF a THEN PRINT "m
+ixed"
+ 130 PRINT "abbreviated": GO SUB
+ 140
+ 140 DEF FN f(x)=x*2: REM print 
+not tokenized
+ 150 PRINT "print in quotes";VAL
+$  "chr$ 65"
+ 160 FOR i=1 TO 3: NEXT i
+ 170 PRINT a<>1, a<=1, a>=1
+0 OK, 0:1
+rem renumber 1000 5 1010 1020
+0 OK, 0:1
+LIST
+ 100 PRINT "lower case"
+ 110 GO TO 100
+ 120 LET A=1: IF a THEN PRINT "m
+ixed"
+ 130 PRINT "abbreviated": GO SUB
+ 140
+ 140 DEF FN f(x)=x*2: REM print 
+not tokenized
+ 150 PRINT "print in quotes";VAL
+$  "chr$ 65"
+ 160 FOR i=1 TO 3: NEXT i
+ 170 PRINT a<>1, a<=1, a>=1
+0 OK, 0:1
+rem delete 1015 1015
+REM COMMANDS
+                
+V1.32
+                
+STREAMS
+DELETE   first last
+RENUMBER start step  first last
+0 OK, 0:1
+LIST 1000
+0 OK, 0:1
+rem delete 1 2
+REM COMMANDS
+                
+V1.32
+                
+STREAMS
+DELETE   first last
+RENUMBER start step  first last
+0 OK, 0:1
+rem streams
+ Streams        Free: 41240     
+
+253             K
+254             S
+255             R
+
+0               K
+1               K
+2               S
+3               P
+4               
+5               
+6               
+7               
+8               
+9               
+10              
+11              
+12              
+13              
+14              
+15              
+0 OK, 0:1
+stop
+9 STOP statement, 0:1

@@ -1,0 +1,18 @@
+LET a$="hatstand": PRINT a$(1 TO 3);"|";a$(4 TO);"|";a$( TO 2);"|";a$(5);"|";a$()
+PRINT a$(5 TO 3);"|";LEN a$(5 TO 3);"|";"abc"(2 TO )
+LET a$(2 TO 4)="XY": PRINT a$
+LET a$(2 TO 3)="1234": PRINT a$
+LET b$="": PRINT LEN b$; CODE b$
+PRINT "a"+"b"+"c", "abc"="abc", "abc"<"abd", "b">"abc", "ab"<"abc"
+PRINT "yes" AND 1;"|";"yes" AND 0;"|"
+DIM c$(3,4): LET c$(1)="abcdef": LET c$(2,2)="Z": PRINT c$(1);"|";c$(2);"|";c$(1,2 TO 3)
+DIM n(2,3): LET n(1,2)=5: LET n(2,3)=n(1,2)*2: PRINT n(1,2);n(2,3);n(2,1)
+PRINT n(3,1)
+PRINT n(1)
+DIM d$(5): PRINT LEN d$;"|";d$;"|"
+LET d$="toolongstring": PRINT d$
+LET long variable name = 3: LET longvariablename = longvariablename + 1: PRINT long variable name
+PRINT STR$ 12.5 + "x", VAL "1e3", VAL$ "a$"
+PRINT "quote""inside"
+PRINT CHR$ 34; CHR$ 96; CHR$ 127
+LET x$="12345": PRINT x$(2)(1), x$(2 TO 4)(2 TO )

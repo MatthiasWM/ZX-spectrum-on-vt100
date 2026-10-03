@@ -1,0 +1,14 @@
+# build directories
+/build*/
+/out/
+/cmake-build-*/
+
+# IDE and OS files
+.vs/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# files written by the interpreter
+zxprinter.txt

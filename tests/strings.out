@@ -1,0 +1,56 @@
+© 1982 Sinclair Research Ltd
+LET a$="hatstand": PRINT a$(1 TO 3);"|";a$(4 TO);"|";a$( TO 2);"|";a$(5);"|";a$()
+hat|stand|ha|t|hatstand
+0 OK, 0:2
+PRINT a$(5 TO 3);"|";LEN a$(5 TO 3);"|";"abc"(2 TO )
+|0|bc
+0 OK, 0:1
+LET a$(2 TO 4)="XY": PRINT a$
+hXY tand
+0 OK, 0:2
+LET a$(2 TO 3)="1234": PRINT a$
+h12 tand
+0 OK, 0:2
+LET b$="": PRINT LEN b$; CODE b$
+00
+0 OK, 0:2
+PRINT "a"+"b"+"c", "abc"="abc", "abc"<"abd", "b">"abc", "ab"<"abc"
+abc             1               
+1               1               
+1
+0 OK, 0:1
+PRINT "yes" AND 1;"|";"yes" AND 0;"|"
+yes||
+0 OK, 0:1
+DIM c$(3,4): LET c$(1)="abcdef": LET c$(2,2)="Z": PRINT c$(1);"|";c$(2);"|";c$(1,2 TO 3)
+abcd| Z  |bc
+0 OK, 0:4
+DIM n(2,3): LET n(1,2)=5: LET n(2,3)=n(1,2)*2: PRINT n(1,2);n(2,3);n(2,1)
+5100
+0 OK, 0:4
+PRINT n(3,1)
+3 Subscript wrong, 0:1
+PRINT n(1)
+3 Subscript wrong, 0:1
+DIM d$(5): PRINT LEN d$;"|";d$;"|"
+5|     |
+0 OK, 0:2
+LET d$="toolongstring": PRINT d$
+toolo
+0 OK, 0:2
+LET long variable name = 3: LET longvariablename = longvariablename + 1: PRINT long variable name
+4
+0 OK, 0:3
+PRINT STR$ 12.5 + "x", VAL "1e3", VAL$ "a$"
+12.5x           1000            
+h12 tand
+0 OK, 0:1
+PRINT "quote""inside"
+quote"inside
+0 OK, 0:1
+PRINT CHR$ 34; CHR$ 96; CHR$ 127
+"£©
+0 OK, 0:1
+LET x$="12345": PRINT x$(2)(1), x$(2 TO 4)(2 TO )
+2               34
+0 OK, 0:2

@@ -1,0 +1,81 @@
+© 1982 Sinclair Research Ltd
+10 REM files test
+20 LET x=1: PRINT "x=";x
+LET v=42: DIM a(3): LET a(3)=7: LET a$="text"
+0 OK, 0:4
+SAVE "zxtest-prog" LINE 20
+0 OK, 0:1
+SAVE "zxtest-prog.bas"
+0 OK, 0:1
+SAVE "zxtest-arr" DATA a()
+0 OK, 0:1
+SAVE "zxtest-str" DATA a$()
+C Nonsense in BASIC, 0:1
+DIM s$(2,3): LET s$(2)="abc": SAVE "zxtest-str" DATA s$()
+0 OK, 0:3
+POKE 50000,1: POKE 50001,2: SAVE "zxtest-code" CODE 50000,2
+0 OK, 0:3
+NEW
+© 1982 Sinclair Research Ltd
+LOAD "zxtest-prog"
+Program: zxtest-pro
+x=1
+0 OK, 20:2
+PRINT v, a(3)
+42              7
+0 OK, 0:1
+NEW
+© 1982 Sinclair Research Ltd
+LOAD "zxtest-prog.bas"
+0 OK, 0:1
+LIST
+  10 REM files test
+  20 LET x=1: PRINT "x=";x
+0 OK, 0:1
+VERIFY "zxtest-prog.bas"
+0 OK, 0:1
+30 PRINT "new line"
+VERIFY "zxtest-prog.bas"
+R Tape loading error, 0:1
+LOAD "zxtest-arr" DATA q(): PRINT q(3)
+Number array: zxtest-arr
+7
+0 OK, 0:2
+LOAD "zxtest-str" DATA t$(): PRINT t$(2)
+Character array: zxtest-str
+abc
+0 OK, 0:2
+LOAD "" DATA q()
+Character array: zxtest-str
+R Tape loading error, 0:1
+POKE 50000,0: LOAD "zxtest-code" CODE 50001: PRINT PEEK 50001, PEEK 50002
+Bytes: zxtest-cod
+1               2
+0 OK, 0:3
+LOAD "zxtest-code" CODE 60000,1
+Bytes: zxtest-cod
+R Tape loading error, 0:1
+MERGE "zxtest-prog"
+Program: zxtest-pro
+0 OK, 0:1
+LIST
+  10 REM files test
+  20 LET x=1: PRINT "x=";x
+  30 PRINT "new line"
+0 OK, 0:1
+LOAD "zxtest-nothing"
+F Invalid file name, 0:1
+SAVE ""
+F Invalid file name, 0:1
+ERASE "zxtest-prog.bas"
+0 OK, 0:1
+LOAD "zxtest-prog.bas"
+F Invalid file name, 0:1
+MOVE "zxtest-code.tap","zxtest-code2.tap"
+0 OK, 0:1
+LOAD "zxtest-code2" CODE: PRINT PEEK 50000
+Bytes: zxtest-cod
+1
+0 OK, 0:2
+ERASE "zxtest-code2.tap": ERASE "zxtest-prog.tap": ERASE "zxtest-arr.tap": ERASE "zxtest-str.tap"
+0 OK, 0:4

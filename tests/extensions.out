@@ -1,0 +1,32 @@
+© 1982 Sinclair Research Ltd
+PRINT UPPER$("Hello"), LOWER$("WORLD")
+HELLO           world
+0 OK, 0:1
+PRINT INSTR("hatstand","st"), INSTR("hatstand","x"), INSTR("abcabc","b",3)
+4               0               
+5
+0 OK, 0:1
+PRINT MAX(3,9,4), MIN(3,9,-4)
+9               -4
+0 OK, 0:1
+PRINT UPPER$("a","b")
+Q Parameter error, 0:1
+PRINT LEN TIME$() = 8, LEN DATE$() = 10
+1               1
+0 OK, 0:1
+10 LET a$=lower$("MIXED Case")
+20 PRINT a$; MAX(1, 2)
+RUN
+mixed case2
+0 OK, 20:1
+LIST
+  10 LET a$=lower$("MIXED Case")
+  20 PRINT a$; MAX(1, 2)
+0 OK, 0:1
+PRINT NOSUCH(1)
+C Nonsense in BASIC: PRINT NOSUCH?(1)
+NOSUCH 1,2
+C Nonsense in BASIC: ?NOSUCH 1,2
+CD "/nonexistent-zxgw-dir"
+F Invalid file name, 0:1
+BYE

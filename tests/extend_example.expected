@@ -1,0 +1,29 @@
+© 1982 Sinclair Research Ltd
+SQUARES 3
+1
+4
+9
+0 OK, 0:1
+SQUARES 0
+B Integer out of range, 0:1
+WAIT 1: PRINT "waited"
+waited
+0 OK, 0:2
+GETENV "ZXGW_EXAMPLE", v$: PRINT v$
+from the environment
+0 OK, 0:2
+GETENV "ZXGW_EXAMPLE", v
+C Nonsense in BASIC, 0:1
+PRINT HYPOT(3,4), REPEAT$("ab",3)
+5               ababab
+0 OK, 0:1
+10 SQUARES 2: PRINT REPEAT$("-", HYPOT(6,8))
+RUN
+1
+4
+----------
+0 OK, 10:2
+LIST
+  10 SQUARES 2: PRINT REPEAT$("-
+", HYPOT(6,8))
+0 OK, 0:1

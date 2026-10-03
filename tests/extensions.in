@@ -1,0 +1,14 @@
+PRINT UPPER$("Hello"), LOWER$("WORLD")
+PRINT INSTR("hatstand","st"), INSTR("hatstand","x"), INSTR("abcabc","b",3)
+PRINT MAX(3,9,4), MIN(3,9,-4)
+PRINT UPPER$("a","b")
+PRINT LEN TIME$() = 8, LEN DATE$() = 10
+10 LET a$=lower$("MIXED Case")
+20 PRINT a$; MAX(1, 2)
+RUN
+LIST
+PRINT NOSUCH(1)
+NOSUCH 1,2
+CD "/nonexistent-zxgw-dir"
+BYE
+PRINT "never reached"

@@ -1,0 +1,19 @@
+10 print "lower case"
+20 goto 10
+30 Let A=1: iF a THEN pRiNt "mixed"
+40 pr. "abbreviated": go sub 50
+50 deffn f(x)=x*2: rem print not tokenized
+60 print "print in quotes"; val$ "chr$ 65"
+70 for i=1to 3:next i
+80 print a<>1, a<=1, a>=1
+LIST
+REM
+rem renumber
+LIST
+rem renumber 1000 5 1010 1020
+LIST
+rem delete 1015 1015
+LIST 1000
+rem delete 1 2
+rem streams
+stop

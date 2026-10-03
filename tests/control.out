@@ -1,0 +1,74 @@
+© 1982 Sinclair Research Ltd
+10 REM control flow
+20 FOR i=1 TO 3
+30 FOR j=i TO 1 STEP -1: PRINT i;j;" ";: NEXT j
+40 PRINT
+50 NEXT i
+60 GO SUB 200: GO SUB 200
+70 IF i>3 THEN PRINT "i=";i: IF i<3 THEN PRINT "never"
+80 LET n=0
+90 LET n=n+1: IF n<5 THEN GO TO 90
+100 PRINT "n=";n
+110 READ a,b$,c: PRINT a;b$;c
+120 RESTORE 300: READ a: PRINT a
+130 DEF FN h(x,y)=x*10+y: DEF FN r$(a$)=a$(LEN a$)+a$( TO LEN a$-1)
+140 PRINT FN h(4,2), FN r$("abcd")
+150 FOR k=1 TO 0: PRINT "skip": NEXT k: PRINT "k=";k
+160 STOP
+170 PRINT "continued"
+180 GO TO 400
+200 LET s=s+1: PRINT "sub";s: RETURN
+300 DATA 1,"two",3
+310 DATA 99
+400 PRINT "end"
+LET s=0: GO TO 10
+11 
+22 21 
+33 32 31 
+sub1
+sub2
+i=4
+n=5
+1two3
+1
+42              dabc
+k=1
+9 STOP statement, 160:1
+CONTINUE
+continued
+end
+0 OK, 400:1
+RUN
+11 
+22 21 
+33 32 31 
+2 Variable not found, 200:1
+RETURN
+2 Variable not found, 200:1
+NEXT q
+2 Variable not found, 0:1
+GO TO 50
+2 Variable not found, 200:1
+PRINT FN z(1)
+P FN without DEF, 0:1
+LIST 100
+ 100>PRINT "n=";n
+ 110 READ a,b$,c: PRINT a;b$;c
+ 120 RESTORE 300: READ a: PRINT 
+a
+ 130 DEF FN h(x,y)=x*10+y: DEF F
+N r$(a$)=a$(LEN a$)+a$( TO LEN a
+$-1)
+ 140 PRINT FN h(4,2),FN r$("abcd
+")
+ 150 FOR k=1 TO 0: PRINT "skip":
+ NEXT k: PRINT "k=";k
+ 160 STOP 
+ 170 PRINT "continued"
+ 180 GO TO 400
+ 200 LET s=s+1: PRINT "sub";s: R
+ETURN 
+ 300 DATA 1,"two",3
+ 310 DATA 99
+ 400 PRINT "end"
+0 OK, 0:1
