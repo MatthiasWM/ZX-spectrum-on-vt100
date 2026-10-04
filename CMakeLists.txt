@@ -54,6 +54,8 @@ target_include_directories(zxgw
         ${CMAKE_CURRENT_SOURCE_DIR}/src/platform)
 
 if(MSVC)
+    # The application is also called zxgw: keep the debug databases apart.
+    set_target_properties(zxgw PROPERTIES COMPILE_PDB_NAME zxgw-lib)
     target_compile_options(zxgw PRIVATE /W4 /utf-8)
     target_compile_definitions(zxgw PRIVATE _CRT_SECURE_NO_WARNINGS _USE_MATH_DEFINES)
 else()
