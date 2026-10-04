@@ -570,7 +570,7 @@ uint16_t Machine::eLineNo() {
 
 // L1A1B OUT-NUM-1: print bc without leading zeros (direct command: 0).
 void Machine::outNum1(uint16_t bc) {
-    if (bc & 0x8000) { outCode(0); return; }
+    if (bit15(bc)) { outCode(0); return; }
     std::string s = std::to_string(bc);
     for (char ch : s) outCode(uint8_t(ch - '0'));
 }

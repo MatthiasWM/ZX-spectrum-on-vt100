@@ -248,7 +248,7 @@ void Machine::runStatements(bool fromLineRun) {
             if (breakKey()) error(0x14);                       // REPORT-L
             if (mem[NSPPC] & 0x80) { s = STMT_NEXT; break; }
             hl = word(NEWPPC);
-            if (hl & 0x8000) { s = LINE_RUN; break; }          // a direct command
+            if (bit15(hl)) { s = LINE_RUN; break; }            // a direct command
             // LINE-NEW
             uint16_t prev;
             bool exact;
@@ -436,7 +436,7 @@ void Machine::useZero() {
 // GW TOGGLE: STOP as a direct command switches between the GW keyword
 // entry (keywords are typed as words) and the classic 'K' mode.
 void Machine::stopCmd() {
-    if (word(PPC) & 0x8000) {
+    if (bit15(word(PPC))) {
         mem[FLAGS2] ^= F2_GW_CLASSIC;
         impose();
     }
@@ -1115,7 +1115,7 @@ void Machine::borderCmd() {
 
 // GW NEWREM and the REM command.
 void Machine::remCmd() {
-    if (!syntaxZ() && (word(PPC) & 0x8000)) {
+    if (!syntaxZ() && bit15(word(PPC))) {
         uint16_t e = word(E_LINE);
         if (mem[e] == tok::REM) gwRemCommand(e);
     }

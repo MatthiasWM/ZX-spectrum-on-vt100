@@ -199,3 +199,19 @@ short, the GW ROM instead writes `VAL "nnnn"` to save space; zxgw does not.
 **NMI.** The GW ROM repairs the NMI routine: a button on the NMI line gives a
 warm restart with a report, unless a program has put zero into NMIADD. zxgw
 has no NMI, because a terminal has no NMI button.
+
+## Compiler caveats
+
+**MSVC 19.51 and `& 0x8000`.** Visual Studio 2026 (MSVC 19.51, `/O2`)
+miscompiles a test of bit 15 of a 16-bit value assembled from two bytes:
+
+```cpp
+uint16_t word(uint16_t a) const { return uint16_t(mem[a] | (mem[uint16_t(a + 1)] << 8)); }
+void f() { if (word(0x5C45) & 0x8000) g(); }    // compiled to a bare "ret"
+```
+
+`>> 15`, `>= 0x8000` and `int16_t(...) < 0` are compiled correctly. zxgw
+uses `Machine::bit15()` (a shift) wherever the ROM tests bit 15, typically
+PPC = $FFFE for a direct command. Without it, the REM commands and the
+STOP toggle silently did nothing in Windows release builds. If you add code
+that tests bit 15 of a word, use `bit15()`.

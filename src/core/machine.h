@@ -117,6 +117,9 @@ public:
     std::array<uint8_t, 65536> mem{};
     uint16_t word(uint16_t a) const { return uint16_t(mem[a] | (mem[uint16_t(a + 1)] << 8)); }
     void setWord(uint16_t a, uint16_t v) { mem[a] = uint8_t(v); mem[uint16_t(a + 1)] = uint8_t(v >> 8); }
+    // Bit 15 of a word, e.g. PPC of a direct command ($FFFE).  A shift, not
+    // "& 0x8000": MSVC 19.51 /O2 folds word(a) & 0x8000 to 0 (docs/curiosities.md).
+    static bool bit15(uint16_t v) { return (v >> 15) != 0; }
     bool flag(uint16_t var, uint8_t bit) const { return (mem[var] & bit) != 0; }
     void setFlag(uint16_t var, uint8_t bit, bool on) { if (on) mem[var] |= bit; else mem[var] &= uint8_t(~bit); }
 
