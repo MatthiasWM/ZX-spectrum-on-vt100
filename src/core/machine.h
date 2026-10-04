@@ -156,6 +156,7 @@ public:
     std::string lineText(uint16_t p, uint16_t marker);
     void batchSyntaxError(uint16_t start);
     void saveText(const std::string& path);
+    std::vector<std::string> listingLines();  // the program as a text listing
     void cellBitmap(int row, int col, uint8_t out[8]) const;
     void setCellFromBitmap(int row, int col, const uint8_t in[8]);
     void screenToMemory();                    // render cells into the display file

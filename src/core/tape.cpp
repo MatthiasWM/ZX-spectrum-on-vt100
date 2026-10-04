@@ -574,6 +574,12 @@ std::string Machine::lineText(uint16_t p, uint16_t marker) {
 void Machine::saveText(const std::string& path) {
     std::ofstream out(path, std::ios::trunc);
     if (!out) error(0x0E);
+    for (const std::string& line : listingLines()) out << line << '\n';
+}
+
+// The program as the lines of a text listing.
+std::vector<std::string> Machine::listingLines() {
+    std::vector<std::string> lines;
     uint16_t hl = word(PROG);
     while (mem[hl] < 0x40) {
         unsigned number = unsigned((mem[hl] << 8) | mem[uint16_t(hl + 1)]);
@@ -581,9 +587,10 @@ void Machine::saveText(const std::string& path) {
         std::string text = lineText(uint16_t(hl + 4), 0);
         // drop the space after a keyword at the end of the line
         if (!text.empty() && text.back() == ' ' && mem[uint16_t(hl + 4 + len - 2)] >= 0xA5) text.pop_back();
-        out << number << ' ' << text << '\n';
+        lines.push_back(std::to_string(number) + ' ' + text);
         hl = uint16_t(hl + 4 + len);
     }
+    return lines;
 }
 
 // Read a listing.  The lines are entered as if they were typed, so they are
@@ -603,13 +610,7 @@ void Machine::loadText(const std::string& path, int command) {
         lines.push_back(line.substr(i));
     }
     if (command == 2) {                                        // VERIFY: compare listings
-        std::string tmp = (fs::temp_directory_path() / "zxgw-verify.bas").string();
-        saveText(tmp);
-        std::ifstream mine(tmp);
-        std::vector<std::string> current;
-        while (std::getline(mine, line)) current.push_back(line);
-        fs::remove(tmp);
-        if (current != lines) error(0x1A);
+        if (listingLines() != lines) error(0x1A);
         return;
     }
     if (command == 1) {
