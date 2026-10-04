@@ -19,3 +19,9 @@ jobs:
         run: cmake --build build --config Release --parallel
       - name: Test
         run: ctest --test-dir build --build-config Release --output-on-failure
+      - name: Keep the test output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-work-${{ matrix.os }}
+          path: build/test-work

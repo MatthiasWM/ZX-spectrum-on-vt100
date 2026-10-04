@@ -1,0 +1,4 @@
+# Keep the test transcripts byte for byte identical on every platform.
+tests/*.in       text eol=lf
+tests/*.out      text eol=lf
+tests/*.expected text eol=lf
