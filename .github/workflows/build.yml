@@ -10,18 +10,23 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        config: [Release]
+        include:
+          # MSVC's debug runtime checks iterators and uninitialized variables.
+          - os: windows-latest
+            config: Debug
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Configure
-        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
       - name: Build
-        run: cmake --build build --config Release --parallel
+        run: cmake --build build --config ${{ matrix.config }} --parallel
       - name: Test
-        run: ctest --test-dir build --build-config Release --output-on-failure
+        run: ctest --test-dir build --build-config ${{ matrix.config }} --output-on-failure
       - name: Keep the test output
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-work-${{ matrix.os }}
+          name: test-work-${{ matrix.os }}-${{ matrix.config }}
           path: build/test-work

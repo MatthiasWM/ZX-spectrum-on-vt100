@@ -11,6 +11,10 @@
 #include <string>
 #include <vector>
 
+#if defined(_MSC_VER) && defined(_DEBUG)
+#include <crtdbg.h>
+#endif
+
 #include "zxgw/standard_extensions.h"
 #include "zxgw/terminal_host.h"
 #include "zxgw/zxgw.h"
@@ -64,6 +68,13 @@ std::string quoted(const std::string& s) {
 } // namespace
 
 int main(int argc, char** argv) {
+#if defined(_MSC_VER) && defined(_DEBUG)
+    // Debug runtime checks print to stderr instead of opening a dialog box.
+    for (int type : {_CRT_WARN, _CRT_ERROR, _CRT_ASSERT}) {
+        _CrtSetReportMode(type, _CRTDBG_MODE_FILE);
+        _CrtSetReportFile(type, _CRTDBG_FILE_STDERR);
+    }
+#endif
     zxgw::Options options;
     zxgw::TerminalHost::Config termConfig;
     zxgw::BatchHost::Config batchConfig;
