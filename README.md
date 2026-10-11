@@ -69,6 +69,18 @@ size, here 64×18, and the circles are drawn with braille dots.)
 - **Portable C++17**: Linux, macOS, BSD and Windows 10+ (console with VT
   sequences).
 
+## Downloads
+
+Ready-built archives for Linux (x86_64, arm64), macOS (universal) and Windows
+(x86_64) are on the [Releases](https://github.com/MatthiasWM/ZX-spectrum-on-vt100/releases)
+page. Each contains the program in `bin/`, the static library, the headers
+and the CMake package, the documentation and the licence.
+
+To make a release, set the version in `include/zxgw/zxgw.h` (`kVersion`) and
+in `CMakeLists.txt`, then push a matching tag, for example `git tag v1.0.0 &&
+git push origin v1.0.0`. The `release` workflow builds, tests and publishes
+the archives; it refuses a tag that does not match the program's version.
+
 ## Building
 
 You need CMake 3.16 or newer and a C++17 compiler (GCC 8+, Clang 7+ or

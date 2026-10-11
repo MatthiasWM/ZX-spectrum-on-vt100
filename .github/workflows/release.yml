@@ -1,0 +1,110 @@
+name: release
+
+# Pushing a tag like v1.2.3 builds, tests and packages zxgw for Linux, macOS
+# and Windows, and publishes the archives on the GitHub Releases page.
+# Starting the workflow by hand builds the same archives as workflow artifacts
+# without publishing anything, to try out a release.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          # An older Ubuntu keeps the glibc requirement low; libstdc++ is linked statically.
+          - os: ubuntu-22.04
+            platform: linux-x86_64
+            cmake-flags: -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc"
+          - os: ubuntu-22.04-arm
+            platform: linux-arm64
+            cmake-flags: -DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc"
+          # One universal binary for Apple Silicon and Intel; std::filesystem needs 10.15.
+          - os: macos-latest
+            platform: macos-universal
+            cmake-flags: -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15
+          # The static C runtime avoids depending on the Visual C++ redistributable.
+          - os: windows-latest
+            platform: windows-x86_64
+            cmake-flags: -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Name the release
+        run: |
+          if [ "$GITHUB_REF_TYPE" = tag ]; then
+            version="$GITHUB_REF_NAME"
+          else
+            version="snapshot-${GITHUB_SHA::7}"
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          echo "PACKAGE=zxgw-$version-${{ matrix.platform }}" >> "$GITHUB_ENV"
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release ${{ matrix.cmake-flags }}
+      - name: Build
+        run: cmake --build build --config Release --parallel
+      - name: Test
+        run: ctest --test-dir build --build-config Release --output-on-failure
+
+      - name: Package
+        run: |
+          cmake --install build --config Release --prefix "$PACKAGE"
+          cp README.md LICENSE.md "$PACKAGE/"
+          cp -R docs "$PACKAGE/docs"
+
+          # The tag must match the version the program reports (zxgw.h).
+          reported=$("$PACKAGE/bin/zxgw" --version | tr -d '\r')
+          echo "$reported"
+          if [ "$GITHUB_REF_TYPE" = tag ] && [ "$reported" != "zxgw ${VERSION#v}" ]; then
+            echo "::error::Tag $VERSION does not match '$reported'; update kVersion in include/zxgw/zxgw.h and the project VERSION in CMakeLists.txt"
+            exit 1
+          fi
+
+          mkdir dist
+          if [ "$RUNNER_OS" = Windows ]; then
+            7z a -tzip "dist/$PACKAGE.zip" "$PACKAGE"
+          else
+            tar -czf "dist/$PACKAGE.tar.gz" "$PACKAGE"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE }}
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    if: github.ref_type == 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Checksums
+        working-directory: dist
+        run: sha256sum * > SHA256SUMS.txt
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "zxgw $GITHUB_REF_NAME" \
+            --generate-notes \
+            --verify-tag
